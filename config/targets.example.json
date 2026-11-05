@@ -1,0 +1,13 @@
+{
+  "_comment": "Commands the agents run inside the target repo. Copy to config/targets.json and adjust.",
+  "checks": [
+    { "name": "lint", "command": "npm run lint" },
+    { "name": "typecheck", "command": "npm run typecheck" },
+    { "name": "test", "command": "npm test" }
+  ],
+  "coder": {
+    "_comment": "Agent Develop delegates code edits to Claude Code in headless mode, limited to the repo. {PROMPT_FILE} is replaced at runtime.",
+    "command": "claude -p \"$(cat {PROMPT_FILE})\" --permission-mode acceptEdits --allowedTools Read,Edit,Write,Glob,Grep,\"Bash(npm run *)\",\"Bash(npx vitest *)\",\"Bash(git status)\",\"Bash(git diff *)\" --disallowedTools \"Bash(git push *)\",\"Bash(git merge *)\""
+  },
+  "protectedPaths": ["rules/", "reports/", ".agent-review/"]
+}

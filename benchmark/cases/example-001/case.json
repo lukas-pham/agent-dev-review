@@ -1,0 +1,8 @@
+{
+  "repoPath": "/path/to/02-product-enrichment",
+  "baseBranch": "main",
+  "branch": "bench/missing-id-token-check",
+  "ruleSetId": "bfs",
+  "clean": false,
+  "expected": [{ "rule": "BFS 3.1.1", "file": "app/routes/api.products.tsx", "severity": "blocker" }]
+}

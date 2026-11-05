@@ -1,0 +1,32 @@
+{
+  "id": "bfs",
+  "version": "2026.11.05",
+  "updatedAt": "2026-11-05",
+  "description": "Built for Shopify criteria (sample subset). Re-check https://shopify.dev/docs/apps/launch/built-for-shopify/requirements and the BFS changelog before each project.",
+  "reviewers": [
+    { "scope": "server", "label": "Server", "focus": "Env vars and secrets, migrations, queues, retry, timeouts, logging, monitoring, rate limits, supported API version", "evidence": "Config, migrations, runtime logs, failure-test output" },
+    { "scope": "backend", "label": "Backend", "focus": "OAuth, session/ID token, access scopes, GraphQL Admin API, webhook HMAC + idempotency, privacy webhooks, billing, per-shop data isolation", "evidence": "Code lines, API test output, sample webhooks" },
+    { "scope": "frontend", "label": "Frontend", "focus": "App Bridge, Polaris web components, navigation, save bar, error messages, mobile, contrast, loading states, BFS design rules", "evidence": "Code lines, screenshots, Playwright output, Web Vitals" }
+  ],
+  "rules": [
+    { "code": "BFS 3.1.1", "title": "Embedded in admin with the latest App Bridge, uses ID token", "scopes": ["frontend", "backend"], "check": ["code_read"], "mandatory": true },
+    { "code": "BFS 3.1.3", "title": "No extra sign-up or login after install", "scopes": ["backend", "frontend"], "check": ["code_read", "run"], "mandatory": true },
+    { "code": "BFS 3.2.1", "title": "Storefront UI uses a theme app extension", "scopes": ["frontend"], "check": ["code_read"], "mandatory": true },
+    { "code": "BFS 3.2.2", "title": "No Asset API edits to theme files (except listed exceptions)", "scopes": ["backend"], "check": ["code_read"], "mandatory": true },
+    { "code": "BFS 4.1.4", "title": "Primary navigation uses s-app-nav", "scopes": ["frontend"], "check": ["code_read", "run"], "mandatory": true },
+    { "code": "BFS 4.1.5", "title": "Forms use the Contextual Save Bar", "scopes": ["frontend"], "check": ["code_read", "run"], "mandatory": true },
+    { "code": "BFS 4.2.3", "title": "Home page shows whether the app is working and useful metrics", "scopes": ["frontend", "backend"], "check": ["run"], "mandatory": true },
+    { "code": "BFS 4.2.4", "title": "Errors are red, next to the related field, and do not auto-dismiss", "scopes": ["frontend"], "check": ["run"], "mandatory": true },
+    { "code": "BFS 4.3.1", "title": "No promises about revenue or SEO ranking in the UI", "scopes": ["frontend"], "check": ["code_read", "screenshot"], "mandatory": true },
+    { "code": "BFS 4.3.5", "title": "AI features do not use the Sidekick icon or magic-purple colours", "scopes": ["frontend"], "check": ["code_read", "screenshot"], "mandatory": true },
+    { "code": "BFS 5.3.1", "title": "Analytics-category apps collect storefront events with Web Pixel", "scopes": ["frontend", "backend"], "check": ["code_read"], "mandatory": false },
+    { "code": "BFS 2.1.1-2.1.3", "title": "LCP <= 2.5s, CLS <= 0.1, INP <= 200ms at p75, >= 100 samples in 28 days", "scopes": ["server", "frontend"], "check": ["real_data"], "mandatory": true, "requiresRealData": true },
+    { "code": "BFS 2.2.1", "title": "Storefront Lighthouse score does not drop more than 10 points", "scopes": ["frontend", "server"], "check": ["real_data"], "mandatory": true, "requiresRealData": true },
+    { "code": "BFS 1.2.1-1.2.2", "title": ">= 50 net installs from paid shops and >= 5 reviews", "scopes": ["none"], "check": ["external_dashboard"], "mandatory": true, "requiresRealData": true },
+    { "code": "APP-SEC-1", "title": "AI API keys and shop access tokens only on the server", "scopes": ["server", "backend"], "check": ["code_read"], "mandatory": true },
+    { "code": "APP-SEC-2", "title": "Every business table has shop_id and every query filters by it", "scopes": ["backend"], "check": ["code_read", "run"], "mandatory": true },
+    { "code": "APP-SEC-3", "title": "AI-proposed store writes require merchant approval", "scopes": ["backend", "frontend"], "check": ["code_read", "run"], "mandatory": true },
+    { "code": "APP-AI-1", "title": "Each model call logs prompt version, tokens, latency and errors; per-shop daily cost cap", "scopes": ["server"], "check": ["code_read", "run"], "mandatory": true },
+    { "code": "APP-PRIV-1", "title": "Mandatory privacy webhooks: customers/data_request, customers/redact, shop/redact", "scopes": ["backend"], "check": ["code_read"], "mandatory": true, "source": "App Store requirements — verify" }
+  ]
+}

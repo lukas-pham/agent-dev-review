@@ -1,0 +1,1 @@
+- The products API route returns only the current shop's products and requires a valid ID token.

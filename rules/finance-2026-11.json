@@ -1,0 +1,24 @@
+{
+  "id": "finance",
+  "version": "2026.11.05",
+  "updatedAt": "2026-11-05",
+  "description": "Controls for the invoice matching project (AP). Not Shopify-specific.",
+  "reviewers": [
+    { "scope": "server", "label": "Server", "focus": "Secrets, migrations, document storage with expiring links, backups, logs without personal data", "evidence": "Config, migrations, runtime logs" },
+    { "scope": "controls", "label": "Financial controls", "focus": "Matching done by code, thresholds, duplicates, segregation of duties, immutable audit trail, payment list gating", "evidence": "Code lines, test output on the invoice benchmark" },
+    { "scope": "frontend", "label": "Frontend", "focus": "Source document side by side with extracted fields, low-confidence highlighting, error states, roles visible", "evidence": "Code lines, screenshots, Playwright output" }
+  ],
+  "rules": [
+    { "code": "FIN-1", "title": "Match/no-match is decided by code, never by the model", "scopes": ["controls"], "check": ["code_read"], "mandatory": true },
+    { "code": "FIN-2", "title": "Arithmetic (line amount, tax, total) verified by code", "scopes": ["controls"], "check": ["code_read", "run"], "mandatory": true },
+    { "code": "FIN-3", "title": "Variance above threshold always becomes an exception", "scopes": ["controls"], "check": ["run"], "mandatory": true },
+    { "code": "FIN-4", "title": "Exact duplicate invoices are always blocked", "scopes": ["controls"], "check": ["run"], "mandatory": true },
+    { "code": "FIN-5", "title": "Nobody approves a record they entered or processed (SoD)", "scopes": ["controls", "frontend"], "check": ["code_read", "run"], "mandatory": true },
+    { "code": "FIN-6", "title": "Audit log is append-only: AI value, final value, who, when", "scopes": ["controls", "server"], "check": ["code_read", "run"], "mandatory": true },
+    { "code": "FIN-7", "title": "Low-confidence fields cannot auto-advance", "scopes": ["controls"], "check": ["code_read", "run"], "mandatory": true },
+    { "code": "FIN-8", "title": "Only matched AND approved invoices reach the payment proposal export", "scopes": ["controls"], "check": ["run"], "mandatory": true },
+    { "code": "FIN-9", "title": "Instructions inside invoice content never change matching results", "scopes": ["controls"], "check": ["run"], "mandatory": true },
+    { "code": "FIN-10", "title": "Documents stored privately, accessed via expiring links", "scopes": ["server"], "check": ["code_read"], "mandatory": true },
+    { "code": "FIN-11", "title": "System never executes payments or sends emails by itself", "scopes": ["controls"], "check": ["code_read"], "mandatory": true }
+  ]
+}

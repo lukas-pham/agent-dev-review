@@ -1,0 +1,1 @@
+{"checks":[{"name":"test","command":"npm test"}],"coder":{"command":"/tmp/claude-1000/-var-public-lukas/00a7fbea-f451-4e0d-9015-04073fc1f4db/scratchpad/fakecoder.sh {PROMPT_FILE}"},"protectedPaths":["rules/"]}
